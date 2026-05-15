@@ -1,3 +1,4 @@
+import os
 from src.dataset_handler import load_dataset, preprocess_dataset
 from src.genai_tabular import augment_tabular
 from src.model_train import train_and_eval
@@ -34,14 +35,18 @@ else:
     print(f"⚠️ No low-cardinality column found. Using last column: '{TARGET_COLUMN}'")
 
 print("\n🚀 MODEL TRAINING BEFORE AUGMENTATION")
-train_and_eval(df, target_column=TARGET_COLUMN)
+acc_before = train_and_eval(df, target_column=TARGET_COLUMN)
 
 df_aug = augment_tabular(df, samples=300)
 
 # Save augmented data
+os.makedirs("output", exist_ok=True)
 output_path = "output/augmented_data.csv"
 df_aug.to_csv(output_path, index=False)
 print(f"\n💾 Augmented data saved to: {output_path}")
 
 print("\n🚀 MODEL TRAINING AFTER AUGMENTATION")
-train_and_eval(df_aug, target_column=TARGET_COLUMN)
+acc_after = train_and_eval(df_aug, target_column=TARGET_COLUMN)
+
+print(f"\n✅ RF Accuracy (before): {acc_before:.4f}")
+print(f"✅ RF Accuracy (after):  {acc_after:.4f}")
