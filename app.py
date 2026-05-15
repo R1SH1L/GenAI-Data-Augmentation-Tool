@@ -4,19 +4,7 @@ import pandas as pd
 from src.dataset_handler import preprocess_dataset
 from src.genai_tabular import augment_tabular
 from src.model_train import train_and_eval
-
-def detect_target_column(df):
-    candidates = []
-    for col in df.columns:
-        unique_count = df[col].nunique()
-        if unique_count >= 2 and unique_count <= 10:
-            candidates.append((col, unique_count))
-
-    if candidates:
-        candidates.sort(key=lambda x: (x[1], -list(df.columns).index(x[0])))
-        return candidates[0][0], candidates
-
-    return df.columns[-1], candidates
+from src.utils import detect_target_column
 
 st.set_page_config(page_title="GenAI Data Augmentation Tool", layout="wide")
 

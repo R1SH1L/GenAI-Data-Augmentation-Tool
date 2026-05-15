@@ -30,6 +30,8 @@ The script will:
 - Train/evaluate Random Forest after augmentation
 - Save the augmented dataset to `output/augmented_data.csv`
 
+Main pipeline logic lives in `src/pipeline.py`; `main.py` is a thin entry point that calls it.
+
 ## Run (Streamlit UI)
 
 ```bash
@@ -54,3 +56,28 @@ Augmented data is saved to:
 ```
 output/augmented_data.csv
 ```
+
+## Example Output (CLI)
+
+Shortened sample run:
+
+```
+✅ Dataset loaded successfully.
+✅ Dataset preprocessed (missing values removed).
+🔍 Analyzing columns to detect target...
+🎯 Selected: 'label' (unique values: 2) - preferring last column position
+
+🚀 MODEL TRAINING BEFORE AUGMENTATION
+📊 Model Accuracy: 1.0000
+
+⏳ Training CTGAN model (Generative AI)...
+✅ Synthetic data generated using CTGAN (Generative AI).
+
+🚀 MODEL TRAINING AFTER AUGMENTATION
+📊 Model Accuracy: 0.7121
+```
+
+Notes:
+- Accuracy can drop after augmentation depending on dataset size, label balance, and CTGAN quality. Treat the RF scores as a quick sanity check, not a benchmark.
+- Target auto-detection uses a low-cardinality heuristic; override it in the UI if needed.
+- SDV may emit a deprecation warning about `SingleTableMetadata`. It is safe to ignore for now, but you can upgrade the SDV API later if desired.
