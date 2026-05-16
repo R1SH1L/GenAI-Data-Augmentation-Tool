@@ -13,6 +13,12 @@ Generate synthetic tabular data with CTGAN and evaluate a Random Forest model be
 pip install -r requirements.txt
 ```
 
+## Quick Start (Streamlit)
+
+```bash
+streamlit run app.py
+```
+
 ## Run (CLI)
 
 1. Open `main.py` and set `DATA_PATH` to your CSV file.
